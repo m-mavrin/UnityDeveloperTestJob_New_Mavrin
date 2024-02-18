@@ -22,7 +22,7 @@ public class Monster : MonoBehaviour
 		
 		if (Vector3.Distance (transform.position, m_moveTarget.transform.position) <= m_reachDistance) 
 		{
-			Destroy (gameObject);
+            Destroy (gameObject);
 			return;
 		}
 
