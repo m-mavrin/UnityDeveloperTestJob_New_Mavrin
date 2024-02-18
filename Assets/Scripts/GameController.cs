@@ -2,28 +2,38 @@
 
 public class GameController : MonoBehaviour
 {
-    public GameObject m_KillsCounter_Text;
-    public GameObject m_LostsCounter_Text;
-    public GameObject m_StartGame_Button;
-    public GameObject m_StopGame_Button;
+    public GameObject m_UI;
+    public bool isGameStarted = false;
 
-    private bool isGameStarted = false;
+    private int m_killsScore = 0;
+    private int m_missedScore = 0;
+
+    public bool IsGameStarted
+    {
+        get { return isGameStarted; }
+    }
 
     public void StartGame()
     {
         isGameStarted = true;
-        m_StartGame_Button.SetActive(false);
-        m_StopGame_Button.SetActive(true);
-        m_KillsCounter_Text.SetActive(true);
-        m_LostsCounter_Text.SetActive(true);
+        m_UI.GetComponent<UIController>().SetStartUIState();
     }
 
     public void StopGame()
     {
         isGameStarted = false;
-        m_StopGame_Button.SetActive(false);
-        m_StartGame_Button.SetActive(true);
-        m_KillsCounter_Text.SetActive(false);
-        m_LostsCounter_Text.SetActive(false);
+        m_UI.GetComponent<UIController>().SetStopUIState();
+    }
+
+    public void AddKilled()
+    {
+        m_killsScore++;
+        m_UI.GetComponent<UIController>().SetKilledScore(m_killsScore);
+    }
+
+    public void AddMissed()
+    {
+        m_missedScore++;
+        m_UI.GetComponent<UIController>().SetMissedScore(m_missedScore);
     }
 }
