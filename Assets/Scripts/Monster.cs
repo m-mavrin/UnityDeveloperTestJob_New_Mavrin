@@ -4,8 +4,9 @@ using System.Collections;
 public class Monster : MonoBehaviour 
 {
 	public GameObject m_moveTarget;
-	public float m_speed = 0.1f;
-	public int m_maxHP = 30;
+	private float m_speed = 5f;
+    private int m_maxHP = 30;
+	private Animator m_animator;
 	const float m_reachDistance = 0.3f;
 
 	public int m_hp;
@@ -13,24 +14,20 @@ public class Monster : MonoBehaviour
 	void Start() 
 	{
 		m_hp = m_maxHP;
+		m_animator = GetComponent<Animator>();
 	}
 
-	void Update () 
+	void Update() 
 	{
-		if (m_moveTarget == null)
+        if (m_moveTarget == null)
 			return;
-		
-		if (Vector3.Distance (transform.position, m_moveTarget.transform.position) <= m_reachDistance) 
+        
+        if ((m_moveTarget.transform.position - transform.position).sqrMagnitude < m_reachDistance)
 		{
-            Destroy (gameObject);
-			return;
-		}
+			m_animator.SetTrigger("Death");
+			Destroy(gameObject, 1.2f);
+        }
 
-		var translation = m_moveTarget.transform.position - transform.position;
-		if (translation.magnitude > m_speed) 
-		{
-			translation = translation.normalized * m_speed;
-		}
-		transform.Translate (translation);
-	}
+        transform.position += (m_moveTarget.transform.position - transform.position).normalized * m_speed * Time.deltaTime;
+    }
 }

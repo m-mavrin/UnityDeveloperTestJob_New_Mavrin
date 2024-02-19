@@ -11,13 +11,12 @@ public class Spawner : MonoBehaviour
 
 	void Update () 
 	{
-		if (Time.time > m_lastSpawn + m_interval) 
+		if (Time.time > m_lastSpawn + m_interval)
 		{
-			var newMonster = GameObject.CreatePrimitive (PrimitiveType.Capsule);
-
-			newMonster.transform.position = transform.position;
-			var monsterBeh = newMonster.AddComponent<Monster> ();
-			monsterBeh.m_moveTarget = m_moveTarget;
+            GameObject newMonster = Instantiate(m_monster);
+            newMonster.transform.position = transform.position;
+			newMonster.transform.rotation = Quaternion.Euler(0, 90, 0);
+			newMonster.GetComponent<Monster>().m_moveTarget = m_moveTarget;
 
 			m_lastSpawn = Time.time;
 		}
