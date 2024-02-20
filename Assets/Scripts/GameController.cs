@@ -1,39 +1,64 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject m_UI;
+    public UIController UI;
+    public Spawner spawner;
+    public float interval = 3;
     public bool isGameStarted = false;
 
+    private float m_lastSpawn = -1;
     private int m_killsScore = 0;
     private int m_missedScore = 0;
+    public List<GameObject> m_monsters = new List<GameObject>(16);
 
-    public bool IsGameStarted
+    private void Update()
     {
-        get { return isGameStarted; }
+        if (isGameStarted)
+        {
+            if (Time.time > m_lastSpawn + interval)
+            {
+                var newMonster = spawner.SpawnMonster();
+                m_monsters.Add(newMonster);
+
+                m_lastSpawn = Time.time;
+            }
+        }
+    }
+
+    public void ClearMonsters()
+    {
+        foreach (var monster in m_monsters)
+        {
+            Destroy(monster);
+        }
+        m_monsters.Clear();
     }
 
     public void StartGame()
     {
         isGameStarted = true;
-        m_UI.GetComponent<UIController>().SetStartUIState();
+        m_lastSpawn = Time.time;
+        UI.SetStartUIState();
     }
 
     public void StopGame()
     {
         isGameStarted = false;
-        m_UI.GetComponent<UIController>().SetStopUIState();
+        ClearMonsters();
+        UI.SetStopUIState();
     }
 
     public void AddKilled()
     {
         m_killsScore++;
-        m_UI.GetComponent<UIController>().SetKilledScore(m_killsScore);
+        UI.SetKilledScore(m_killsScore);
     }
 
     public void AddMissed()
     {
         m_missedScore++;
-        m_UI.GetComponent<UIController>().SetMissedScore(m_missedScore);
+        UI.SetMissedScore(m_missedScore);
     }
 }
