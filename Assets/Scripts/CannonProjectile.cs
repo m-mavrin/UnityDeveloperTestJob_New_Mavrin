@@ -2,26 +2,23 @@
 
 public class CannonProjectile : MonoBehaviour
 {
-    public float m_speed = 0.2f;
-    public int m_damage = 10;
+    public float speed = 5f;
+    public int damage = 10;
 
-    void Update()
+    private Rigidbody m_rigidbody;
+
+    private void Start()
     {
-        var translation = transform.forward * m_speed;
-        transform.Translate(translation);
+        m_rigidbody = GetComponent<Rigidbody>();
+        m_rigidbody.velocity = transform.forward * speed;
     }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        var monster = other.gameObject.GetComponent<Monster>();
-        if (monster == null)
+        if (!other.gameObject.TryGetComponent<Monster>(out var monster))
             return;
 
-        monster.m_hp -= m_damage;
-        if (monster.m_hp <= 0)
-        {
-            Destroy(monster.gameObject);
-        }
+        monster.HP -= damage;
         Destroy(gameObject);
     }
 }

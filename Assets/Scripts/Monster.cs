@@ -2,33 +2,36 @@
 
 public class Monster : MonoBehaviour
 {
-    const float m_reachDistance = 0.3f;
-    public float m_speed = 5f;
-    public int m_maxHP = 30;
-    public int m_hp;
-    public GameObject m_moveTarget;
+    const float reachDistance = 0.3f;
+    public float speed = 5f;
+    public int maxHP;
+    public int HP;
+    public GameObject moveTarget;
+
+    private Rigidbody m_rigidbody;
 
     void Start()
     {
-        m_hp = m_maxHP;
+        HP = maxHP;
+        m_rigidbody = GetComponent<Rigidbody>();
+        m_rigidbody.velocity = (moveTarget.transform.position - transform.position).normalized * speed;
     }
 
     void Update()
     {
-        if (m_moveTarget == null)
+        if (moveTarget == null)
             return;
 
-        if ((m_moveTarget.transform.position - transform.position).sqrMagnitude < m_reachDistance)
+        if ((moveTarget.transform.position - transform.position).sqrMagnitude < reachDistance)
         {
             Destroy(gameObject);
         }
 
-        if (m_hp <= 0)
+        if (HP <= 0)
         {
             GetComponent<Animator>().SetTrigger("Death");
+            m_rigidbody.velocity = Vector3.zero;
             Destroy(gameObject, 1.2f);
         }
-
-        transform.position += (m_moveTarget.transform.position - transform.position).normalized * m_speed * Time.deltaTime;
     }
 }

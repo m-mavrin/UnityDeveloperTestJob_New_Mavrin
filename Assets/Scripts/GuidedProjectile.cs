@@ -2,22 +2,22 @@
 
 public class GuidedProjectile : MonoBehaviour
 {
-    public GameObject m_target;
-    public float m_speed = 0.2f;
-    public int m_damage = 10;
+    public GameObject target;
+    public float speed = 0.2f;
+    public int damage = 10;
 
     void Update()
     {
-        if (m_target == null)
+        if (target == null)
         {
             Destroy(gameObject);
             return;
         }
 
-        var translation = m_target.transform.position - transform.position;
-        if (translation.magnitude > m_speed)
+        var translation = target.transform.position - transform.position;
+        if (translation.magnitude > speed)
         {
-            translation = translation.normalized * m_speed;
+            translation = translation.normalized * speed;
         }
         transform.Translate(translation);
     }
@@ -27,7 +27,7 @@ public class GuidedProjectile : MonoBehaviour
         if (!other.gameObject.TryGetComponent<Monster>(out var monster))
             return;
 
-        monster.m_hp -= m_damage;
+        monster.HP -= damage;
         Destroy(gameObject);
     }
 }

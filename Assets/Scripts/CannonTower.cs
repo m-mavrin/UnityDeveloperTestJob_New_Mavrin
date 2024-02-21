@@ -1,33 +1,53 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class CannonTower : MonoBehaviour 
+public class CannonTower : MonoBehaviour
 {
-	public float m_shootInterval = 0.5f;
-	public float m_range = 4f;
-	public GameObject m_projectilePrefab;
-	public Transform m_shootPoint;
+    public float shootInterval;
+    public float range;
+    public GameObject projectile;
+    public Transform shootPoint;
+    public GameController controller;
 
-	private float m_lastShotTime = -0.5f;
+    private float m_lastShotTime = -0.5f;
+    private Monster m_target = null;
 
-	void Update () 
-	{
-		if (m_projectilePrefab == null || m_shootPoint == null)
-			return;
+    void Update()
+    {
+        if (projectile == null || controller == null)
+            return;
 
-		foreach (var monster in FindObjectsOfType<Monster>()) 
-		{
-			if (Vector3.Distance (transform.position, monster.transform.position) > m_range)
-				continue;
+        if (controller.isGameStarted)
+        {
+            if (m_target == null || m_target.HP <= 0)
+            {
+                m_target = FindTarget();
+            }
+            else
+            {
+                Shoot();
+            }
+        }
+    }
 
-			if (m_lastShotTime + m_shootInterval > Time.time)
-				continue;
+    private Monster FindTarget()
+    {
+        foreach (var monster in FindObjectsOfType<Monster>())
+        {
+            if (Vector3.Distance(transform.position, monster.transform.position) > range)
+                continue;
 
-			// shot
-			Instantiate(m_projectilePrefab, m_shootPoint.position, m_shootPoint.rotation);
+            return monster;
+        }
 
-			m_lastShotTime = Time.time;
-		}
+        return null;
+    }
 
-	}
+    public void Shoot()
+    {
+        if (m_lastShotTime + shootInterval > Time.time)
+            return;
+
+        Instantiate(projectile, shootPoint.position, shootPoint.rotation);
+        m_lastShotTime = Time.time;
+    }
 }

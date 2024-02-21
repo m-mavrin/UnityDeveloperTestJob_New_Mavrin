@@ -2,33 +2,33 @@
 
 public class MagicTower : MonoBehaviour
 {
-    public float m_shootInterval = 0.5f;
-    public float m_range = 50f;
-    public GameObject m_projectile;
-    public GameController m_controller;
+    public float shootInterval;
+    public float range;
+    public GameObject projectile;
+    public GameController controller;
 
     private float m_lastShotTime = -0.5f;
     private Monster m_target = null;
 
     void Update()
     {
-        if (m_projectile == null || m_controller == null)
+        if (projectile == null || controller == null)
             return;
 
-        if (m_controller.isGameStarted)
+        if (controller.isGameStarted)
         {
-            if (m_target == null)
+            if (m_target == null || m_target.HP <= 0)
             {
                 m_target = FindTarget();
             }
             else
             {
-                if (Time.time < m_lastShotTime + m_shootInterval)
+                if (Time.time < m_lastShotTime + shootInterval)
                     return;
 
-                var projectile = Instantiate(m_projectile, transform.position + Vector3.up * 1.5f, Quaternion.identity);
-                var projectileBeh = projectile.GetComponent<GuidedProjectile>();
-                projectileBeh.m_target = m_target.gameObject;
+                var newProjectile = Instantiate(projectile, transform.position + Vector3.up * 1.5f, Quaternion.identity);
+                var projectileBeh = newProjectile.GetComponent<GuidedProjectile>();
+                projectileBeh.target = m_target.gameObject;
 
                 m_lastShotTime = Time.time;
             }
@@ -39,7 +39,7 @@ public class MagicTower : MonoBehaviour
     {
         foreach (var monster in FindObjectsOfType<Monster>())
         {
-            if (Vector3.Distance(transform.position, monster.transform.position) < m_range)
+            if (Vector3.Distance(transform.position, monster.transform.position) > range)
                 continue;
 
             return monster;

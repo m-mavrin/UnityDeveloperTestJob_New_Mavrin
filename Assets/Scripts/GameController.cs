@@ -5,7 +5,7 @@ public class GameController : MonoBehaviour
 {
     public UIController UI;
     public Spawner spawner;
-    public float interval = 3;
+    public float spawnInterval = 3;
     public bool isGameStarted = false;
 
     private float m_lastSpawn = -1;
@@ -17,7 +17,7 @@ public class GameController : MonoBehaviour
     {
         if (isGameStarted)
         {
-            if (Time.time > m_lastSpawn + interval)
+            if (Time.time > m_lastSpawn + spawnInterval)
             {
                 var newMonster = spawner.SpawnMonster();
                 m_monsters.Add(newMonster);
