@@ -3,8 +3,8 @@
 public class GuidedProjectile : MonoBehaviour
 {
     public GameObject target;
-    public float speed = 0.2f;
-    public int damage = 10;
+    public float speed;
+    public int damage;
 
     void Update()
     {

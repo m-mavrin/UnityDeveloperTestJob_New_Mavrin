@@ -24,6 +24,11 @@ public class CannonTower : MonoBehaviour
             }
             else
             {
+                var targetPosition = CalculateLeadPoint(m_target.transform.position, m_target.GetComponent<Rigidbody>().velocity, projectile.GetComponent<CannonProjectile>().speed);
+                targetPosition.y += m_target.gameObject.transform.localScale.y;
+
+                var angle = Quaternion.LookRotation(targetPosition - shootPoint.position);
+                transform.eulerAngles = new Vector3(angle.eulerAngles.x, angle.eulerAngles.y, angle.eulerAngles.z);
                 Shoot();
             }
         }
@@ -49,5 +54,15 @@ public class CannonTower : MonoBehaviour
 
         Instantiate(projectile, shootPoint.position, shootPoint.rotation);
         m_lastShotTime = Time.time;
+    }
+
+    private Vector3 CalculateLeadPoint(Vector3 targetPosition, Vector3 targetVelocity, float projectileSpeed)
+    {
+        Vector3 relativePosition = targetPosition - transform.position;
+        float distance = relativePosition.magnitude;
+        float timeToImpact = distance / projectileSpeed;
+        Vector3 leadPoint = targetPosition + targetVelocity * timeToImpact;
+
+        return leadPoint;
     }
 }

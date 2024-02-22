@@ -2,8 +2,8 @@
 
 public class CannonProjectile : MonoBehaviour
 {
-    public float speed = 5f;
-    public int damage = 10;
+    public float speed;
+    public int damage;
 
     private Rigidbody m_rigidbody;
 
