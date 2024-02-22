@@ -4,6 +4,7 @@ public class CannonTower : MonoBehaviour
 {
     public float shootInterval;
     public float range;
+    public float rotationSpeed;
     public GameObject projectile;
     public Transform shootPoint;
     public GameController controller;
@@ -28,7 +29,7 @@ public class CannonTower : MonoBehaviour
                 targetPosition.y += m_target.gameObject.transform.localScale.y;
 
                 var angle = Quaternion.LookRotation(targetPosition - shootPoint.position);
-                transform.eulerAngles = new Vector3(angle.eulerAngles.x, angle.eulerAngles.y, angle.eulerAngles.z);
+                transform.rotation = Quaternion.Lerp(transform.rotation, angle, Time.deltaTime * rotationSpeed);
                 Shoot();
             }
         }
