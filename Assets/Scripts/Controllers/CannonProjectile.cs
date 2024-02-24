@@ -1,24 +1,17 @@
 ﻿using UnityEngine;
 
-public class CannonProjectile : MonoBehaviour
+public class CannonProjectile : ProjectileBase
 {
-    public float speed;
-    public int damage;
-
     private Rigidbody m_rigidbody;
 
     private void Start()
     {
         m_rigidbody = GetComponent<Rigidbody>();
-        m_rigidbody.velocity = transform.forward * speed;
+        StartMove();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void StartMove()
     {
-        if (!other.gameObject.TryGetComponent<Monster>(out var monster))
-            return;
-
-        monster.HP -= damage;
-        Destroy(gameObject);
+        m_rigidbody.velocity = transform.forward * m_speed;
     }
 }
