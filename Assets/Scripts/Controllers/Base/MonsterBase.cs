@@ -19,10 +19,15 @@ public class MonsterBase : MonoBehaviour
         m_currentHP -= damage;
     }
 
-    protected void Death()
+    public void Death()
     {
         GetComponent<Animator>().SetTrigger("Death");
         m_rigidbody.velocity = Vector3.zero;
         Destroy(gameObject, m_timeToDeath);
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
 }

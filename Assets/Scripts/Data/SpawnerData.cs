@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnerData : MonoBehaviour
+[CreateAssetMenu(fileName = "New SpawnerData", menuName = "Spawner Data")]
+public class SpawnerData : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject m_monsterPrefab;
+    [SerializeField] private float m_respawnTime;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject MonsterPrefab { get => m_monsterPrefab; }
+    public float RespawnTime { get => m_respawnTime; }
 }

@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public UIController UI;
-    public Spawner spawner;
-    public float spawnInterval = 3;
+    [SerializeField] private UIController m_UI;
+    [SerializeField] private Spawner m_spawner;
     public bool isGameStarted = false;
 
     private float m_lastSpawn = -1;
@@ -17,9 +16,11 @@ public class GameController : MonoBehaviour
     {
         if (isGameStarted)
         {
-            if (Time.time > m_lastSpawn + spawnInterval)
+            if (Time.time > m_lastSpawn + m_spawner.RespawnTime)
             {
-                var newMonster = spawner.SpawnMonster();
+                var newMonster = m_spawner.SpawnMonster();
+                newMonster.GetComponent<Monster>().onKilled += AddKilled;
+                newMonster.GetComponent<Monster>().onDestroy += AddMissed;
                 m_monsters.Add(newMonster);
 
                 m_lastSpawn = Time.time;
@@ -40,25 +41,25 @@ public class GameController : MonoBehaviour
     {
         isGameStarted = true;
         m_lastSpawn = Time.time;
-        UI.SetStartUIState();
+        m_UI.SetStartUIState();
     }
 
     public void StopGame()
     {
         isGameStarted = false;
         ClearMonsters();
-        UI.SetStopUIState();
+        m_UI.SetStopUIState();
     }
 
     public void AddKilled()
     {
         m_killsScore++;
-        UI.SetKilledScore(m_killsScore);
+        m_UI.SetKilledScore(m_killsScore);
     }
 
     public void AddMissed()
     {
         m_missedScore++;
-        UI.SetMissedScore(m_missedScore);
+        m_UI.SetMissedScore(m_missedScore);
     }
 }
