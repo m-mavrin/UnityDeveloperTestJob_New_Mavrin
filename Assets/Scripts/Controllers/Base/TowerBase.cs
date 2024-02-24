@@ -5,6 +5,8 @@ public class TowerBase : MonoBehaviour
     [SerializeField] protected TowerData m_towerData;
     [SerializeField] protected GameController m_controller;
     [SerializeField] protected Transform m_shootPoint;
+    [SerializeField] protected Transform m_verticalCannonPart;
+    [SerializeField] protected Transform m_horizontalCannonPart;
 
     protected float m_lastShotTime = -0.5f;
     protected Monster m_target = null;
