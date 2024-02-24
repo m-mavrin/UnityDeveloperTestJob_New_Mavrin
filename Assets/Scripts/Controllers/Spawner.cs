@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
     {
         GameObject newMonster = Instantiate(m_monster);
         newMonster.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(0, 90, 0));
-        newMonster.GetComponent<Monster>().moveTarget = m_target;
+        newMonster.GetComponent<Monster>().Target = m_target;
 
         return newMonster;
     }

@@ -1,42 +1,27 @@
 ﻿using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonsterBase
 {
-    const float reachDistance = 0.3f;
-
-    [SerializeField] private MonsterData m_monsterData;
-    public GameObject moveTarget;
-
-    private Rigidbody m_rigidbody;
-    private int m_HP;
-
     void Start()
     {
-        m_HP = m_monsterData.MaxHP;
+        m_currentHP = m_monsterData.MaxHP;
         m_rigidbody = GetComponent<Rigidbody>();
-        m_rigidbody.velocity = (moveTarget.transform.position - transform.position).normalized * m_monsterData.Speed;
+        m_rigidbody.velocity = (Target.transform.position - transform.position).normalized * m_monsterData.Speed;
     }
 
     void Update()
     {
-        if (moveTarget == null)
+        if (m_target == null)
             return;
 
-        if ((moveTarget.transform.position - transform.position).sqrMagnitude < reachDistance)
+        if ((m_target.transform.position - transform.position).sqrMagnitude < m_reachDistance)
         {
             Destroy(gameObject);
         }
 
-        if (m_HP <= 0)
+        if (m_currentHP <= 0)
         {
-            GetComponent<Animator>().SetTrigger("Death");
-            m_rigidbody.velocity = Vector3.zero;
-            Destroy(gameObject, 1.2f);
+            Death();
         }
-    }
-
-    public void GetDamage(int damage)
-    {
-        m_HP -= damage;
     }
 }

@@ -23,7 +23,7 @@ public class CannonTower : TowerBase
 
     private void Rotate()
     {
-        var targetPosition = CalculateLeadPoint(m_target.transform.position, m_target.GetComponent<Rigidbody>().velocity, m_towerData.ProjectileSpeed);
+        var targetPosition = CalculateLeadPoint(m_target.transform.position, m_target.Velocity, m_towerData.ProjectileSpeed);
         var angle = Quaternion.LookRotation(targetPosition - m_shootPoint.position);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, angle, Time.deltaTime * m_towerData.RotationSpeed);
