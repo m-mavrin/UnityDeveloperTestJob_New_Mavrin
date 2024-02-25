@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MonsterBase : MonoBehaviour
@@ -7,12 +8,12 @@ public class MonsterBase : MonoBehaviour
     [SerializeField] protected float m_timeToDeath;
     [SerializeField] protected MonsterData m_monsterData;
     [SerializeField] protected GameObject m_target;
-
-    protected Rigidbody m_rigidbody;
+    [SerializeField] protected Rigidbody m_rigidbody;
     protected int m_currentHP;
 
     public Vector3 Velocity { get => m_rigidbody.velocity; }
     public GameObject Target { get => m_target; set => m_target = value; }
+    public int CurrentHP { get => m_currentHP; }
 
     public void GetDamage(int damage)
     {
@@ -23,11 +24,24 @@ public class MonsterBase : MonoBehaviour
     {
         GetComponent<Animator>().SetTrigger("Death");
         m_rigidbody.velocity = Vector3.zero;
-        Destroy(gameObject, m_timeToDeath);
+
+        StartCoroutine(WaitForDeath());
+    }
+    public IEnumerator WaitForDeath()
+    {
+        yield return new WaitForSeconds(m_timeToDeath);
+
+        gameObject.SetActive(false);
     }
 
     public void Destroy()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    public void Launch()
+    {
+        m_currentHP = m_monsterData.MaxHP;
+        m_rigidbody.velocity = (Target.transform.position - transform.position).normalized * m_monsterData.Speed;
     }
 }

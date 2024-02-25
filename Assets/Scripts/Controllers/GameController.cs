@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class GameController : MonoBehaviour
     private float m_lastSpawn = -1;
     private int m_killsScore = 0;
     private int m_missedScore = 0;
-    public List<GameObject> m_monsters = new List<GameObject>(16);
 
     private void Update()
     {
@@ -21,7 +19,6 @@ public class GameController : MonoBehaviour
                 var newMonster = m_spawner.SpawnMonster();
                 newMonster.GetComponent<Monster>().onKilled += AddKilled;
                 newMonster.GetComponent<Monster>().onDestroy += AddMissed;
-                m_monsters.Add(newMonster);
 
                 m_lastSpawn = Time.time;
             }
@@ -30,11 +27,10 @@ public class GameController : MonoBehaviour
 
     public void ClearMonsters()
     {
-        foreach (var monster in m_monsters)
+        while (m_spawner.MonsterPool.IsHasFreeObject(out MonsterBase monster))
         {
-            Destroy(monster);
+            monster.gameObject.SetActive(false);
         }
-        m_monsters.Clear();
     }
 
     public void StartGame()

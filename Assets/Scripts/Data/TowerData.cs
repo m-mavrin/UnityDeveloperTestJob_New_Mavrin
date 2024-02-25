@@ -14,6 +14,6 @@ public class TowerData : ScriptableObject
     public int Damage { get => m_damage; }
     public float ShootInterval { get => m_shootInterval; }
     public float ShootRange { get => m_shootRange; }
-    public float RotationSpeed { get => m_rotationSpeed; set => m_rotationSpeed = value; }
-    public ProjectileBase ProjectilePrefab { get => m_projectilePrefab; set => m_projectilePrefab = value; }
+    public float RotationSpeed { get => m_rotationSpeed; }
+    public ProjectileBase ProjectilePrefab { get => m_projectilePrefab; }
 }

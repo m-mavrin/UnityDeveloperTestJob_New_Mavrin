@@ -1,5 +1,4 @@
 ﻿using System;
-using UnityEngine;
 
 public class Monster : MonsterBase
 {
@@ -10,10 +9,6 @@ public class Monster : MonsterBase
     {
         onKilled += Death;
         onDestroy += Destroy;
-
-        m_currentHP = m_monsterData.MaxHP;
-        m_rigidbody = GetComponent<Rigidbody>();
-        m_rigidbody.velocity = (Target.transform.position - transform.position).normalized * m_monsterData.Speed;
     }
 
     void Update()
@@ -24,6 +19,7 @@ public class Monster : MonsterBase
         if ((m_target.transform.position - transform.position).sqrMagnitude < m_reachDistance)
         {
             onDestroy?.Invoke();
+            m_target = null;
         }
 
         if (m_currentHP <= 0)
