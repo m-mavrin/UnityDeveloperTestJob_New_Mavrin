@@ -11,7 +11,7 @@ public class TowerBase : MonoBehaviour
     protected Monster m_target = null;
     protected Pool<ProjectileBase> m_projectilePool;
 
-    private void Start()
+    protected virtual void Start()
     {
         m_projectilePool = new Pool<ProjectileBase>(m_towerData.ProjectilePrefab, m_projectileContainer);
     }
@@ -48,6 +48,6 @@ public class TowerBase : MonoBehaviour
 
     protected bool IsTargetDead()
     {
-        return m_target.CurrentHP <= 0;
+        return m_target.CurrentHP <= 0 || !m_target.gameObject.active;
     }
 }
