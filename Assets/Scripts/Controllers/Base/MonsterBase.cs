@@ -22,10 +22,10 @@ public class MonsterBase : MonoBehaviour
 
     public void Death()
     {
-        GetComponent<Animator>().SetTrigger("Death");
+        //GetComponent<Animator>().SetTrigger("Death");
         m_rigidbody.velocity = Vector3.zero;
-
-        StartCoroutine(WaitForDeath());
+        gameObject.SetActive(false);
+        //StartCoroutine(WaitForDeath());
     }
     public IEnumerator WaitForDeath()
     {

@@ -25,14 +25,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ClearMonsters()
-    {
-        while (m_spawner.MonsterPool.IsHasFreeObject(out MonsterBase monster))
-        {
-            monster.gameObject.SetActive(false);
-        }
-    }
-
     public void StartGame()
     {
         isGameStarted = true;
@@ -43,7 +35,7 @@ public class GameController : MonoBehaviour
     public void StopGame()
     {
         isGameStarted = false;
-        ClearMonsters();
+        m_spawner.DisableAllMonsters();
         m_UI.SetStopUIState();
     }
 

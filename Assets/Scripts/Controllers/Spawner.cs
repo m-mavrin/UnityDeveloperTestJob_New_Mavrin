@@ -8,8 +8,6 @@ public class Spawner : MonoBehaviour
 
     public float RespawnTime;
 
-    public Pool<MonsterBase> MonsterPool { get => m_monsterPool; }
-
     private void Start()
     {
         RespawnTime = m_spawnerData.RespawnTime;
@@ -24,5 +22,10 @@ public class Spawner : MonoBehaviour
         newMonster.Launch();
 
         return newMonster;
+    }
+
+    public void DisableAllMonsters()
+    {
+        m_monsterPool.DisableAllObjects();
     }
 }

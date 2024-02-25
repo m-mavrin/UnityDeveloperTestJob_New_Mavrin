@@ -7,7 +7,7 @@ public class Pool<T> where T : MonoBehaviour
     private Transform m_container { get; }
 
     private List<T> m_pool;
-    private readonly int m_poolSize = 16;
+    private readonly int m_poolSize = 8;
 
     public Pool(T prefab, Transform container)
     {
@@ -19,7 +19,7 @@ public class Pool<T> where T : MonoBehaviour
     private void CreatePool()
     {
         m_pool = new List<T>(m_poolSize);
-        for (int i = 0; i < m_pool.Count; i++)
+        for (int i = 0; i < m_poolSize; i++)
         {
             CreateObject();
         }
@@ -57,5 +57,13 @@ public class Pool<T> where T : MonoBehaviour
         }
 
         return CreateObject(true);
+    }
+
+    public void DisableAllObjects()
+    {
+        foreach (var obj in m_pool)
+        {
+            obj.gameObject.SetActive(false);
+        }
     }
 }

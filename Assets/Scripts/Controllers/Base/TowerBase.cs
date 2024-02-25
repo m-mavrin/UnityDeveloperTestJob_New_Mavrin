@@ -18,7 +18,7 @@ public class TowerBase : MonoBehaviour
 
     protected Monster FindTarget()
     {
-        foreach (var monster in FindObjectsOfType<Monster>())
+        foreach (var monster in FindObjectsOfType<Monster>(false))
         {
             if (Vector3.Distance(transform.position, monster.transform.position) > m_towerData.ShootRange)
                 continue;
@@ -44,5 +44,10 @@ public class TowerBase : MonoBehaviour
             newProjectile.Target = m_target.gameObject;
         }
         m_lastShotTime = Time.time;
+    }
+
+    protected bool IsTargetDead()
+    {
+        return m_target.CurrentHP <= 0;
     }
 }

@@ -12,7 +12,7 @@ public class CannonTower : TowerBase
 
         if (m_controller.isGameStarted)
         {
-            if (m_target == null || m_target.CurrentHP <= 0)
+            if (m_target == null || IsTargetDead())
             {
                 m_target = FindTarget();
             }
