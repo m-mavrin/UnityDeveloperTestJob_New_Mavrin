@@ -44,4 +44,9 @@ public class MonsterBase : MonoBehaviour
         m_currentHP = m_monsterData.MaxHP;
         m_rigidbody.velocity = (Target.transform.position - transform.position).normalized * m_monsterData.Speed;
     }
+
+    public bool IsAlive()
+    {
+        return m_currentHP >= 0 && gameObject.active;
+    }
 }

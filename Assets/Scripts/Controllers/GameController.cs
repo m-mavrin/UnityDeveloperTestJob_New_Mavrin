@@ -37,6 +37,7 @@ public class GameController : MonoBehaviour
         isGameStarted = false;
         m_spawner.DisableAllMonsters();
         m_UI.SetStopUIState();
+        ResetScore();
     }
 
     public void AddKilled()
@@ -48,6 +49,14 @@ public class GameController : MonoBehaviour
     public void AddMissed()
     {
         m_missedScore++;
+        m_UI.SetMissedScore(m_missedScore);
+    }
+
+    public void ResetScore()
+    {
+        m_killsScore = 0;
+        m_missedScore = 0;
+        m_UI.SetKilledScore(m_killsScore);
         m_UI.SetMissedScore(m_missedScore);
     }
 }

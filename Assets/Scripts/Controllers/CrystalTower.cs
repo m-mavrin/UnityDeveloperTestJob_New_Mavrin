@@ -7,7 +7,7 @@
 
         if (m_controller.isGameStarted)
         {
-            if (m_target == null || IsTargetDead())
+            if (m_target == null || !m_target.IsAlive())
             {
                 m_target = FindTarget();
             }

@@ -2,9 +2,9 @@
 {
     void Update()
     {
-        if (Target == null)
+        if (Target == null || !Target.GetComponent<Monster>().IsAlive())
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
             return;
         }
 

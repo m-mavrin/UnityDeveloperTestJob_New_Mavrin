@@ -45,9 +45,4 @@ public class TowerBase : MonoBehaviour
         }
         m_lastShotTime = Time.time;
     }
-
-    protected bool IsTargetDead()
-    {
-        return m_target.CurrentHP <= 0 || !m_target.gameObject.active;
-    }
 }
