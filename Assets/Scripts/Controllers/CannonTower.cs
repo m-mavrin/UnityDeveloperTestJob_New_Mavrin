@@ -2,6 +2,9 @@
 
 public class CannonTower : TowerBase
 {
+    [SerializeField] protected Transform m_verticalCannonPart;
+    [SerializeField] protected Transform m_horizontalCannonPart;
+
     void Update()
     {
         if (m_towerData.ProjectilePrefab == null || m_controller == null)

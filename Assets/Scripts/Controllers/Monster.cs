@@ -29,6 +29,7 @@ public class Monster : MonsterBase
         if (m_currentHP <= 0)
         {
             onKilled?.Invoke();
+            m_target = null;
         }
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Pool<T> where T : MonoBehaviour
 {
-    [SerializeField] private T m_prefab { get; }
-    [SerializeField] private Transform m_container { get; }
+    private T m_prefab { get; }
+    private Transform m_container { get; }
 
     private List<T> m_pool;
     private readonly int m_poolSize = 16;

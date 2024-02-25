@@ -5,11 +5,16 @@ public class TowerBase : MonoBehaviour
     [SerializeField] protected TowerData m_towerData;
     [SerializeField] protected GameController m_controller;
     [SerializeField] protected Transform m_shootPoint;
-    [SerializeField] protected Transform m_verticalCannonPart;
-    [SerializeField] protected Transform m_horizontalCannonPart;
+    [SerializeField] protected Transform m_projectileContainer;
 
     protected float m_lastShotTime = -0.5f;
     protected Monster m_target = null;
+    protected Pool<ProjectileBase> m_projectilePool;
+
+    private void Start()
+    {
+        m_projectilePool = new Pool<ProjectileBase>(m_towerData.ProjectilePrefab, m_projectileContainer);
+    }
 
     protected Monster FindTarget()
     {
@@ -29,11 +34,14 @@ public class TowerBase : MonoBehaviour
         if (m_lastShotTime + m_towerData.ShootInterval > Time.time)
             return;
 
-        var newProjectile = Instantiate(m_towerData.ProjectilePrefab, m_shootPoint.position, m_shootPoint.rotation);
+        var newProjectile = m_projectilePool.GetFreeElement();
+        newProjectile.transform.position = m_shootPoint.position;
+        newProjectile.transform.rotation = m_shootPoint.rotation;
+        newProjectile.Launch();
 
         if (isGuided)
         {
-            newProjectile.GetComponent<GuidedProjectile>().Target = m_target.gameObject;
+            newProjectile.Target = m_target.gameObject;
         }
         m_lastShotTime = Time.time;
     }

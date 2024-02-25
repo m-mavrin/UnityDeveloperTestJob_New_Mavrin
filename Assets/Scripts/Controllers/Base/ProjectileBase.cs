@@ -13,13 +13,18 @@ public class ProjectileBase : MonoBehaviour
         if (other.gameObject.TryGetComponent<Monster>(out var monster))
         {
             monster.GetDamage(m_damage);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
         else if (other.CompareTag("Ground"))
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         return;
+    }
+
+    public virtual void Launch()
+    {
+        //
     }
 }
